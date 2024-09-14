@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votação</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .voting-box {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background-color: #f1f1f1;
+        }
+        .results {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .fill {
+            height: 20px;
+            background-color: #4CAF50;
+            width: 0;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="voting-box">
+        <h1>Vote na sua opção favorita</h1>
+        <div class="option" onclick="vote('Option 1')">Opção 1</div>
+        <div class="option" onclick="vote('Option 2')">Opção 2</div>
+        <div class="option" onclick="vote('Option 3')">Opção 3</div>
+        <div class="results">
+            <h2>Resultados:</h2>
+            <div>Opção 1: <div class="bar"><div id="option1-bar" class="fill"></div></div> <span id="option1-result">0%</span></div>
+            <div>Opção 2: <div class="bar"><div id="option2-bar" class="fill"></div></div> <span id="option2-result">0%</span></div>
+            <div>Opção 3: <div class="bar"><div id="option3-bar" class="fill"></div></div> <span id="option3-result">0%</span></div>
+        </div>
+    </div>
+
+    <script>
+        // Contadores de votos
+        let votes = {
+            'Option 1': 0,
+            'Option 2': 0,
+            'Option 3': 0
+        };
+        let totalVotes = 0;
+
+        // Função chamada quando o usuário vota
+        function vote(option) {
+            votes[option] += 1;
+            totalVotes += 1;
+            updateResults();
+        }
+
+        // Atualiza os resultados na tela
+        function updateResults() {
+            const option1Percentage = ((votes['Option 1'] / totalVotes) * 100).toFixed(1) + '%';
+            const option2Percentage = ((votes['Option 2'] / totalVotes) * 100).toFixed(1) + '%';
+            const option3Percentage = ((votes['Option 3'] / totalVotes) * 100).toFixed(1) + '%';
+
+            document.getElementById('option1-result').innerText = option1Percentage;
+            document.getElementById('option2-result').innerText = option2Percentage;
+            document.getElementById('option3-result').innerText = option3Percentage;
+
+            document.getElementById('option1-bar').style.width = option1Percentage;
+            document.getElementById('option2-bar').style.width = option2Percentage;
+            document.getElementById('option3-bar').style.width = option3Percentage;
+        }
+    </script>
+</body>
+</html>
