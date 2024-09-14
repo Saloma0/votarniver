@@ -59,45 +59,43 @@
         <h1>Vote na sua opção favorita</h1>
         <div class="option" onclick="vote('Option 1')">Opção 1</div>
         <div class="option" onclick="vote('Option 2')">Opção 2</div>
-        <div class="option" onclick="vote('Option 3')">Opção 3</div>
         <div class="results">
             <h2>Resultados:</h2>
             <div>Opção 1: <div class="bar"><div id="option1-bar" class="fill"></div></div> <span id="option1-result">0%</span></div>
             <div>Opção 2: <div class="bar"><div id="option2-bar" class="fill"></div></div> <span id="option2-result">0%</span></div>
-            <div>Opção 3: <div class="bar"><div id="option3-bar" class="fill"></div></div> <span id="option3-result">0%</span></div>
         </div>
     </div>
 
     <script>
-        // Contadores de votos
-        let votes = {
+        // Carrega votos salvos do localStorage ou inicializa a contagem
+        let votes = JSON.parse(localStorage.getItem('votes')) || {
             'Option 1': 0,
-            'Option 2': 0,
-            'Option 3': 0
+            'Option 2': 0
         };
-        let totalVotes = 0;
+        let totalVotes = votes['Option 1'] + votes['Option 2'];
 
         // Função chamada quando o usuário vota
         function vote(option) {
             votes[option] += 1;
             totalVotes += 1;
+            localStorage.setItem('votes', JSON.stringify(votes)); // Salva os votos no localStorage
             updateResults();
         }
 
         // Atualiza os resultados na tela
         function updateResults() {
-            const option1Percentage = ((votes['Option 1'] / totalVotes) * 100).toFixed(1) + '%';
-            const option2Percentage = ((votes['Option 2'] / totalVotes) * 100).toFixed(1) + '%';
-            const option3Percentage = ((votes['Option 3'] / totalVotes) * 100).toFixed(1) + '%';
+            const option1Percentage = totalVotes > 0 ? ((votes['Option 1'] / totalVotes) * 100).toFixed(1) + '%' : '0%';
+            const option2Percentage = totalVotes > 0 ? ((votes['Option 2'] / totalVotes) * 100).toFixed(1) + '%' : '0%';
 
             document.getElementById('option1-result').innerText = option1Percentage;
             document.getElementById('option2-result').innerText = option2Percentage;
-            document.getElementById('option3-result').innerText = option3Percentage;
 
             document.getElementById('option1-bar').style.width = option1Percentage;
             document.getElementById('option2-bar').style.width = option2Percentage;
-            document.getElementById('option3-bar').style.width = option3Percentage;
         }
+
+        // Atualiza os resultados ao carregar a página
+        updateResults();
     </script>
 </body>
 </html>
